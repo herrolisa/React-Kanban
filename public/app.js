@@ -1,3 +1,17 @@
+const CardForm = React.createClass({
+  render: function () {
+    return (
+      <form className="cardForm" onSubmit={this.handleSubmit} >
+        <input type="text" placeholder="Title" />
+        <input type="text" placeholder="Priority" />
+        <input type="text" placeholder="Created By" />
+        <input type="text" placeholder="Assigned To" />
+        <input type="submit" value="Add New Task" />
+      </form>
+    );
+  }
+});
+
 const Card = React.createClass({
   render: function() {
     return (
@@ -19,6 +33,7 @@ const Column = React.createClass({
       <div className="column">
         <h2>{this.props.status}</h2>
         <Card />
+        <CardForm />
       </div>
     );
   }
