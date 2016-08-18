@@ -1,7 +1,7 @@
 // -KanbanBox
-//   -Column
-//     -Card
-//   -CardForm
+//   -TaskList
+//     -TaskCard
+//   -TaskForm
 
 const TaskForm = React.createClass({
   getInitialState: function() {
@@ -33,13 +33,15 @@ const TaskForm = React.createClass({
   },
   render: function () {
     return (
-      <form className="taskForm" onSubmit={this.handleSubmit} >
-        <input type="text" placeholder="Title" value={this.state.title} onChange={this.handleTitleChange} /><br />
-        <input type="text" placeholder="Priority" value={this.state.priority} onChange={this.handlePriorityChange} /><br />
-        <input type="text" placeholder="Created By" value={this.state.created_by} onChange={this.handleCreatorChange} /><br />
-        <input type="text" placeholder="Assigned To" value={this.state.assigned_to} onChange={this.handleAssignerChange} /><br />
-        <input type="submit" value="Add New Task" />
-      </form>
+      <div className="form-container">
+        <form className="taskForm" onSubmit={this.handleSubmit} >
+          <input type="text" placeholder="Title" value={this.state.title} onChange={this.handleTitleChange} /><br />
+          <input type="text" placeholder="Priority" value={this.state.priority} onChange={this.handlePriorityChange} /><br />
+          <input type="text" placeholder="Created By" value={this.state.created_by} onChange={this.handleCreatorChange} /><br />
+          <input type="text" placeholder="Assigned To" value={this.state.assigned_to} onChange={this.handleAssignerChange} /><br />
+          <input type="submit" value="Add New Task" />
+        </form>
+      </div>
     );
   }
 });
@@ -80,17 +82,6 @@ const TaskList = React.createClass({
   }
 });
 
-const Column = React.createClass({
-  render: function() {
-    return (
-      <div className="column">
-        <h2>Things To Do</h2>
-        <TaskList data={this.props.data} />
-      </div>
-    );
-  }
-});
-
 const KanbanBox = React.createClass({
   getInitialState: function() {
     return {data: []};
@@ -109,14 +100,14 @@ const KanbanBox = React.createClass({
     });
   },
   handleTaskSubmit: function(task) {
-    var tasks = this.state.data;
+    var currentTasks = this.state.data;
     $.ajax({
       url: this.props.url,
       dataType: 'json',
       type: 'POST',
       data: task,
       success: function(data) {
-        var newTasks = tasks.concat([data]);
+        var newTasks = currentTasks.concat([data]);
         this.setState({data: newTasks});
       }.bind(this),
       error: function(xhr, status, err) {
@@ -129,18 +120,21 @@ const KanbanBox = React.createClass({
     this.loadTasksFromServer();
     setInterval(this.loadTasksFromServer, this.props.pollInterval);
   },
- render: function () {
+  render: function () {
     return (
-      <div className='kanban-container'>
+      <div className="kanban-container">
         <h1>Kanban Box</h1>
-        <Column data={this.state.data} />
-        <TaskForm onTaskSubmit={this.handleTaskSubmit} />
+        <div className="column">
+          <h2>Things To Do</h2>
+          <TaskList data={this.state.data} />
+          <TaskForm onTaskSubmit={this.handleTaskSubmit} />
+        </div>
       </div>
     );
   }
 });
 
 ReactDOM.render(
-  <KanbanBox url="/api/tasks" pollInterval={2000} />,
+  <KanbanBox url="/api/tasks" pollInterval={10000} />,
   document.getElementById('container')
 );
