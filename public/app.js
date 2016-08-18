@@ -34,12 +34,26 @@ const TaskForm = React.createClass({
   render: function () {
     return (
       <div className="form-container">
-        <form className="taskForm" onSubmit={this.handleSubmit} >
-          <input type="text" placeholder="Title" value={this.state.title} onChange={this.handleTitleChange} /><br />
-          <input type="text" placeholder="Priority" value={this.state.priority} onChange={this.handlePriorityChange} /><br />
-          <input type="text" placeholder="Created By" value={this.state.created_by} onChange={this.handleCreatorChange} /><br />
-          <input type="text" placeholder="Assigned To" value={this.state.assigned_to} onChange={this.handleAssignerChange} /><br />
-          <input type="submit" value="Add New Task" />
+        <form className="taskForm" onSubmit={this.handleSubmit}>
+          <p>
+            <label for="title">Title</label><br />
+            <input type="text" id="title" placeholder="Title" value={this.state.title} onChange={this.handleTitleChange} />
+          </p>
+          <p>
+            <label for="priority">Priority (Low: 1 - High: 100)</label><br />
+            <input type="number" id="priority" min="1" max="100" placeholder="0" value={this.state.priority} onChange={this.handlePriorityChange} />
+          </p>
+          <p>
+            <label for="creator">Created By</label><br />
+            <input type="text" id="creator" placeholder="Created By" value={this.state.created_by} onChange={this.handleCreatorChange} />
+          </p>
+          <p>
+            <label for="assigner">Assigned To</label><br />
+            <input type="text" id="assigner" placeholder="Assigned To" value={this.state.assigned_to} onChange={this.handleAssignerChange} /><br />
+          </p>
+          <p className="form-submit">
+            <input type="submit" value="Add New Task" />
+          </p>
         </form>
       </div>
     );
@@ -136,5 +150,5 @@ const KanbanBox = React.createClass({
 
 ReactDOM.render(
   <KanbanBox url="/api/tasks" pollInterval={10000} />,
-  document.getElementById('container')
+  document.getElementById("container")
 );
