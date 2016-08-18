@@ -9,6 +9,14 @@ module.exports = {
       assigned_to: 'Intern',
       createdAt : new Date(),
       updatedAt : new Date()
+    },
+    {
+      title : 'Expense Report',
+      priority: 50,
+      created_by: 'Manager',
+      assigned_to: 'Intern',
+      createdAt : new Date(),
+      updatedAt : new Date()
     }], {});
   },
 
