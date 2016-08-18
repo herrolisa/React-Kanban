@@ -31,6 +31,12 @@ app.get('/', function (req, res) {
   res.render('index');
 });
 
+app.get('/api/tasks', function (req, res) {
+  db.Task.findAll().then(function(tasksArray) {
+    res.json(tasksArray);
+  });
+});
+
 app.listen(app.get('port'), function () {
   db.sequelize.sync();
   console.log(`Server listening on port ${app.get('port')}`);

@@ -53,7 +53,6 @@ const TaskList = React.createClass({
   }
 });
 
-
 const Column = React.createClass({
   render: function() {
     return (
@@ -67,21 +66,37 @@ const Column = React.createClass({
 });
 
 const KanbanBox = React.createClass({
+  getInitialState: function() {
+    return {data: []};
+  },
+  loadCommentsFromServer: function() {
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  componentDidMount: function() {
+    this.loadCommentsFromServer();
+    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+  },
  render: function () {
     return (
       <div className='kanban-container'>
         <h1>Kanban Box</h1>
-        <Column data={this.props.data} />
+        <Column data={this.state.data} />
       </div>
     );
   }
 });
 
-var sample = [
-  {"id":2,"title":"Sales Report","priority":50,"created_by":"Manager","assigned_to":"Intern","createdAt":"2016-08-17T23:47:29.372Z","updatedAt":"2016-08-17T23:47:29.372Z"},
-  {"id":3,"title":"Expense Report","priority":50,"created_by":"Manager","assigned_to":"Intern","createdAt":"2016-08-17T23:47:29.372Z","updatedAt":"2016-08-17T23:47:29.372Z"}];
-
 ReactDOM.render(
-  <KanbanBox data={sample} />,
+  <KanbanBox url="/api/tasks" pollInterval={2000} />,
   document.getElementById('container')
 );
