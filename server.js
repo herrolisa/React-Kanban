@@ -37,6 +37,17 @@ app.get('/api/tasks', function (req, res) {
   });
 });
 
+app.post('/api/tasks', function (req, res) {
+  db.Task.create({
+    title: req.body.title,
+    priority: req.body.priority,
+    created_by: req.body.created_by,
+    assigned_to: req.body.assigned_to,
+  }).then(function(object) {
+    res.json(object);
+  });
+});
+
 app.listen(app.get('port'), function () {
   db.sequelize.sync();
   console.log(`Server listening on port ${app.get('port')}`);
