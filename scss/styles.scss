@@ -1,2 +1,54 @@
 @import 'partials/reset';
 @import 'partials/clearfix';
+
+@import 'https://fonts.googleapis.com/css?family=Alegreya+Sans:400,400i,700,700i|Baloo+Thambi';
+
+h1, h2, h3, h4, h5, h6{
+  font-family: 'Baloo Thambi', cursive;
+}
+
+h1{
+  font-size: 2.5em;
+}
+
+h2{
+  font-size: 1.25em;
+}
+
+p, li{
+  font-family: 'Alegreya Sans', sans-serif;
+  font-size: 0.95em;
+}
+
+.main-container{
+  margin: 25px auto;
+  padding: 25px;
+  width: 90%;
+  border: 2px black solid;
+  border-radius: 10px;
+}
+
+.kanban-container{
+  border: 2px gray solid;
+}
+
+.column {
+  border: green 1px solid;
+  width: 50%;
+}
+
+.task-list {
+  border: red 2px dashed;
+}
+
+.task-card {
+  border: black 1px dotted;
+}
+
+.form-container {
+  border: blue 2px dashed;
+}
+
+input {
+  width: 90%;
+}
