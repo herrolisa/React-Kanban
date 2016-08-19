@@ -26,15 +26,27 @@ p, li{
   width: 90%;
   border: 2px black solid;
   border-radius: 10px;
+  @media screen and (min-width: 1000px) {
+    width: 80%;
+  }
 }
 
 .kanban-container{
   border: 2px gray solid;
 }
 
+.status-columns{
+  display:flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
 .column {
+  flex: 0 0 100%;
   border: green 1px solid;
-  width: 50%;
+  @media screen and (min-width: 1000px) {
+  flex: 1 1 30%;
+  }
 }
 
 .task-list {
@@ -50,5 +62,9 @@ p, li{
 }
 
 input {
-  width: 90%;
+  width: 50%;
+}
+
+input[type="number"] {
+  width: 15%;
 }

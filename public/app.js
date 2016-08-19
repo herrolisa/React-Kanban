@@ -40,8 +40,8 @@ const TaskForm = React.createClass({
             <input type="text" id="title" placeholder="Title" value={this.state.title} onChange={this.handleTitleChange} />
           </p>
           <p>
-            <label for="priority">Priority (Low: 1 - High: 100)</label><br />
-            <input type="number" id="priority" min="1" max="100" placeholder="0" value={this.state.priority} onChange={this.handlePriorityChange} />
+            <label for="priority">Priority (Low: 1 - High: 10)</label><br />
+            <input type="number" id="priority" min="1" max="10" placeholder="0" value={this.state.priority} onChange={this.handlePriorityChange} />
           </p>
           <p>
             <label for="creator">Created By</label><br />
@@ -138,11 +138,19 @@ const KanbanBox = React.createClass({
     return (
       <div className="kanban-container">
         <h1>Kanban Box</h1>
-        <div className="column">
-          <h2>Things To Do</h2>
-          <TaskList data={this.state.data} />
-          <TaskForm onTaskSubmit={this.handleTaskSubmit} />
+        <div className="status-columns">
+          <div className="column">
+            <h2>Queue</h2>
+            <TaskList data={this.state.data} />
+          </div>
+          <div className="column">
+            <h2>In Progress</h2>
+          </div>
+          <div className="column">
+            <h2>Done</h2>
+          </div>
         </div>
+        <TaskForm onTaskSubmit={this.handleTaskSubmit} />
       </div>
     );
   }
