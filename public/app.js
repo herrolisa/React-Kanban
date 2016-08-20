@@ -67,8 +67,8 @@ const TaskCard = React.createClass({
       <div className="task-card">
         <p className="task-title">{this.props.title}</p>
         <p className="task-priority">Priority: {this.props.priority}</p>
-        <p className="task-creator">Created By:<br/>{this.props.created_by}</p>
-        <p className="task-assigner">Assigned To:<br/>{this.props.assigned_to}</p>
+        <p className="task-creator"><span>Created By:</span><br/>{this.props.created_by}</p>
+        <p className="task-assigner"><span>Assigned To:</span><br/>{this.props.assigned_to}</p>
       </div>
     );
   }
