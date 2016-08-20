@@ -34,6 +34,7 @@ const TaskForm = React.createClass({
   render: function () {
     return (
       <div className="form-container">
+        <h2>Add A Task</h2>
         <form className="taskForm" onSubmit={this.handleSubmit}>
           <p>
             <label for="title">Title</label><br />
@@ -64,29 +65,75 @@ const TaskCard = React.createClass({
   render: function() {
     return (
       <div className="task-card">
-        <ul>
-          <li>Title: {this.props.title}</li>
-          <li>Priority: {this.props.priority}</li>
-          <li>Created By: {this.props.created_by}</li>
-          <li>Assigned To: {this.props.assigned_to}</li>
-        </ul>
+        <p className="task-title">{this.props.title}</p>
+        <p className="task-priority">Priority: {this.props.priority}</p>
+        <p className="task-creator">Created By:<br/>{this.props.created_by}</p>
+        <p className="task-assigner">Assigned To:<br/>{this.props.assigned_to}</p>
       </div>
     );
   }
 });
 
-const TaskList = React.createClass({
+const QueueList = React.createClass({
   render: function () {
     var tasks = this.props.data.map(function(singleTask) {
-      return (
-        <TaskCard
-          title={singleTask.title}
-          priority={singleTask.priority}
-          created_by={singleTask.created_by}
-          assigned_to={singleTask.assigned_to}
-          key={singleTask.id}
-        />
-      );
+      if (singleTask.status_id === 1){
+        return (
+          <TaskCard
+            title={singleTask.title}
+            priority={singleTask.priority}
+            created_by={singleTask.created_by}
+            assigned_to={singleTask.assigned_to}
+            key={singleTask.id}
+          />
+        );
+      }
+    });
+    return (
+      <div className="task-list">
+        { tasks }
+      </div>
+    );
+  }
+});
+
+const ProgressList = React.createClass({
+  render: function () {
+    var tasks = this.props.data.map(function(singleTask) {
+      if (singleTask.status_id === 2){
+        return (
+          <TaskCard
+            title={singleTask.title}
+            priority={singleTask.priority}
+            created_by={singleTask.created_by}
+            assigned_to={singleTask.assigned_to}
+            key={singleTask.id}
+          />
+        );
+      }
+    });
+    return (
+      <div className="task-list">
+        { tasks }
+      </div>
+    );
+  }
+});
+
+const DoneList = React.createClass({
+  render: function () {
+    var tasks = this.props.data.map(function(singleTask) {
+      if (singleTask.status_id === 3){
+        return (
+          <TaskCard
+            title={singleTask.title}
+            priority={singleTask.priority}
+            created_by={singleTask.created_by}
+            assigned_to={singleTask.assigned_to}
+            key={singleTask.id}
+          />
+        );
+      }
     });
     return (
       <div className="task-list">
@@ -137,17 +184,19 @@ const KanbanBox = React.createClass({
   render: function () {
     return (
       <div className="kanban-container">
-        <h1>Kanban Box</h1>
+        <h1>Kanban Board</h1>
         <div className="status-columns">
           <div className="column">
             <h2>Queue</h2>
-            <TaskList data={this.state.data} />
+            <QueueList data={this.state.data} />
           </div>
           <div className="column">
             <h2>In Progress</h2>
+            <ProgressList data={this.state.data} />
           </div>
           <div className="column">
             <h2>Done</h2>
+            <DoneList data={this.state.data} />
           </div>
         </div>
         <TaskForm onTaskSubmit={this.handleTaskSubmit} />
