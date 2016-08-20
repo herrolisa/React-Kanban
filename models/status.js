@@ -5,7 +5,9 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        // associations can be defined here
+        models.Status.hasMany(models.Task, {
+          foreignKey: 'status_id'
+        });
       }
     }
   });
