@@ -37,20 +37,24 @@ const TaskForm = React.createClass({
         <h2>Add A Task</h2>
         <form className="taskForm" onSubmit={this.handleSubmit}>
           <p>
-            <label for="title">Title</label><br />
-            <input type="text" id="title" placeholder="Title" value={this.state.title} onChange={this.handleTitleChange} />
+            <label>Title<br />
+              <input type="text" id="title" placeholder="Title" value={this.state.title} onChange={this.handleTitleChange} />
+            </label>
           </p>
           <p>
-            <label for="priority">Priority (Low: 1 - High: 10)</label><br />
-            <input type="number" id="priority" min="1" max="10" placeholder="0" value={this.state.priority} onChange={this.handlePriorityChange} />
+            <label>Priority (Low: 1 - High: 10)<br />
+              <input type="number" id="priority" min="1" max="10" placeholder="0" value={this.state.priority} onChange={this.handlePriorityChange} />
+            </label>
           </p>
           <p>
-            <label for="creator">Created By</label><br />
-            <input type="text" id="creator" placeholder="Created By" value={this.state.created_by} onChange={this.handleCreatorChange} />
+            <label>Created By<br />
+              <input type="text" id="creator" placeholder="Created By" value={this.state.created_by} onChange={this.handleCreatorChange} />
+            </label>
           </p>
           <p>
-            <label for="assigner">Assigned To</label><br />
-            <input type="text" id="assigner" placeholder="Assigned To" value={this.state.assigned_to} onChange={this.handleAssignerChange} /><br />
+            <label>Assigned To<br />
+              <input type="text" id="assigner" placeholder="Assigned To" value={this.state.assigned_to} onChange={this.handleAssignerChange} /><br />
+            </label>
           </p>
           <p className="form-submit">
             <input type="submit" value="Add New Task" />
@@ -67,7 +71,7 @@ const TaskCard = React.createClass({
       <div className="task-card">
         <div className="delete-task">
           <input type="hidden" name="_method" value="DELETE" />
-          <input type="submit" value="X" />
+          <input type="submit" value="X" onClick={ (e) => this.props.delete(this.props.id) } />
         </div>
         <div className ="task-data">
           <p className="task-title">{this.props.title}</p>
@@ -77,9 +81,9 @@ const TaskCard = React.createClass({
         </div>
         <div className="update-status">
           <input type="hidden" name="_method" value="PUT" />
-          <input type="submit" value="<" />
+          <input type="submit" value="<<" />
           <input type="hidden" name="_method" value="PUT" />
-          <input type="submit" value=">" />
+          <input type="submit" value=">>" />
         </div>
       </div>
     );
@@ -88,7 +92,7 @@ const TaskCard = React.createClass({
 
 const QueueList = React.createClass({
   render: function () {
-    var tasks = this.props.data.map(function(singleTask) {
+    var tasks = this.props.data.map((singleTask) => {
       if (singleTask.status_id === 1){
         return (
           <TaskCard
@@ -97,6 +101,8 @@ const QueueList = React.createClass({
             created_by={singleTask.created_by}
             assigned_to={singleTask.assigned_to}
             key={singleTask.id}
+            id={singleTask.id}
+            delete={this.props.onTaskDelete}
           />
         );
       }
@@ -189,8 +195,14 @@ const KanbanBox = React.createClass({
       }.bind(this)
     });
   },
-  handleDeleteTask: function () {
-    // body...
+  handleDeleteTask: function (id) {
+    $.ajax({
+      url: this.props.url + '/' + id,
+      type: 'DELETE',
+      success: (data) => {
+        this.setState({data: data});
+      },
+    });
   },
   componentDidMount: function() {
     this.loadTasksFromServer();

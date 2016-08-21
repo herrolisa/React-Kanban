@@ -61,11 +61,15 @@ app.post('/api/tasks', function (req, res) {
   });
 });
 
-app.delete('/api/tasks', function (req, res) {
+app.delete('/api/tasks/:id', function (req, res) {
   db.Task.destroy({
-
-  }).then(function(object) {
-    res.json(object);
+    where: {
+      id: req.params.id
+    }
+  }).then(function() {
+    return db.Task.findAll();
+  }).then(function (tasksArray) {
+    res.json(tasksArray);
   });
 });
 
