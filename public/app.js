@@ -65,10 +65,22 @@ const TaskCard = React.createClass({
   render: function() {
     return (
       <div className="task-card">
-        <p className="task-title">{this.props.title}</p>
-        <p className="task-priority">Priority: {this.props.priority}</p>
-        <p className="task-creator"><span>Created By:</span><br/>{this.props.created_by}</p>
-        <p className="task-assigner"><span>Assigned To:</span><br/>{this.props.assigned_to}</p>
+        <div className="delete-task">
+          <input type="hidden" name="_method" value="DELETE" />
+          <input type="submit" value="X" />
+        </div>
+        <div className ="task-data">
+          <p className="task-title">{this.props.title}</p>
+          <p className="task-priority">Priority: {this.props.priority}</p>
+          <p className="task-creator"><span>Created By:</span><br/>{this.props.created_by}</p>
+          <p className="task-assigner"><span>Assigned To:</span><br/>{this.props.assigned_to}</p>
+        </div>
+        <div className="update-status">
+          <input type="hidden" name="_method" value="PUT" />
+          <input type="submit" value="<" />
+          <input type="hidden" name="_method" value="PUT" />
+          <input type="submit" value=">" />
+        </div>
       </div>
     );
   }
@@ -177,6 +189,9 @@ const KanbanBox = React.createClass({
       }.bind(this)
     });
   },
+  handleDeleteTask: function () {
+    // body...
+  },
   componentDidMount: function() {
     this.loadTasksFromServer();
     setInterval(this.loadTasksFromServer, this.props.pollInterval);
@@ -188,7 +203,7 @@ const KanbanBox = React.createClass({
         <div className="status-columns">
           <div className="column">
             <h2>Queue</h2>
-            <QueueList data={this.state.data} />
+            <QueueList data={this.state.data} onTaskDelete={this.handleDeleteTask} />
           </div>
           <div className="column">
             <h2>In Progress</h2>
