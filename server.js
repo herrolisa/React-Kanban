@@ -50,6 +50,18 @@ app.get('/api/tasks', function (req, res) {
   });
 });
 
+app.get('/api/users', function (req, res) {
+  db.User.findAll().then(function(usersArray) {
+    res.json(usersArray);
+  });
+});
+
+// app.get('/api/statuses', function (req, res) {
+//   db.Status.findAll().then(function(statusesArray) {
+//     res.json(statusesArray);
+//   });
+// });
+
 app.post('/api/tasks', function (req, res) {
   db.Task.create({
     title: req.body.title,
