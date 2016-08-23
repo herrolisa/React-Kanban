@@ -13,7 +13,7 @@ module.exports = {
     },
     {
       title : 'Expense Report',
-      priority: 4,
+      priority: 7,
       created_by: 'Executive Director',
       assigned_to: 'Accountant',
       status_id: 1,
@@ -31,7 +31,7 @@ module.exports = {
     },
     {
       title : 'Plan New Employee Orientation',
-      priority: 8,
+      priority: 4,
       created_by: 'Human Resource Director',
       assigned_to: 'Human Resource Director',
       status_id: 1,
