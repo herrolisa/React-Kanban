@@ -1,5 +1,5 @@
 // -KanbanBox
-//   -TaskList
+//   -QueueList
 //     -TaskCard
 //   -TaskForm
 
@@ -32,28 +32,39 @@ const TaskForm = React.createClass({
     this.setState({title: '', priority: '', created_by: '', assigned_to: ''});
   },
   render: function () {
+    const currentUsers = this.props.users.map((eachUser) => {
+      return (
+        <option value={eachUser.username}>{eachUser.username}</option>
+      )
+    });
     return (
       <div className="form-container">
         <h2>Add A Task</h2>
         <form className="taskForm" onSubmit={this.handleSubmit}>
           <p>
             <label>Title<br />
-              <input type="text" id="title" placeholder="Title" value={this.state.title} onChange={this.handleTitleChange} />
+              <input type="text" placeholder="Title" value={this.state.title} onChange={this.handleTitleChange} />
             </label>
           </p>
           <p>
             <label>Priority (Low: 1 - High: 10)<br />
-              <input type="number" id="priority" min="1" max="10" placeholder="0" value={this.state.priority} onChange={this.handlePriorityChange} />
+              <input type="number" min="1" max="10" placeholder="0" value={this.state.priority} onChange={this.handlePriorityChange} />
             </label>
           </p>
           <p>
             <label>Created By<br />
-              <input type="text" id="creator" placeholder="Created By" value={this.state.created_by} onChange={this.handleCreatorChange} />
+              <select type="text" placeholder="Created By" value={this.state.created_by} onChange={this.handleCreatorChange}>
+                <option selected disabled>Select User</option>
+                {currentUsers}
+              </select>
             </label>
           </p>
           <p>
             <label>Assigned To<br />
-              <input type="text" id="assigner" placeholder="Assigned To" value={this.state.assigned_to} onChange={this.handleAssignerChange} /><br />
+              <select type="text" placeholder="Assigned To" value={this.state.assigned_to} onChange={this.handleAssignerChange}>
+                <option selected disabled>Select User</option>
+                {currentUsers}
+              </select>
             </label>
           </p>
           <p className="form-submit">
@@ -74,6 +85,7 @@ const TaskCard = React.createClass({
           <input type="submit" value="X" onClick={ (e) => this.props.delete(this.props.id) } />
         </div>
         <div className ="task-data">
+          <p className="task-id">Task ID #{this.props.id}</p>
           <p className="task-title">{this.props.title}</p>
           <p className="task-priority">Priority: {this.props.priority}</p>
           <p className="task-creator"><span>Created By:</span><br/>{this.props.created_by}</p>
@@ -163,7 +175,10 @@ const DoneList = React.createClass({
 
 const KanbanBox = React.createClass({
   getInitialState: function() {
-    return {data: []};
+    return {
+      data: [],
+      users: []
+    };
   },
   loadTasksFromServer: function() {
     $.ajax({
@@ -175,6 +190,19 @@ const KanbanBox = React.createClass({
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  loadUsersFromServer: function() {
+    $.ajax({
+      url: '/api/users',
+      dataType: 'json',
+      cache: false,
+      success: function(users) {
+        this.setState({users: users});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error('/api/users', status, err.toString());
       }.bind(this)
     });
   },
@@ -206,6 +234,7 @@ const KanbanBox = React.createClass({
   },
   componentDidMount: function() {
     this.loadTasksFromServer();
+    this.loadUsersFromServer();
     setInterval(this.loadTasksFromServer, this.props.pollInterval);
   },
   render: function () {
@@ -226,7 +255,7 @@ const KanbanBox = React.createClass({
             <DoneList data={this.state.data} />
           </div>
         </div>
-        <TaskForm onTaskSubmit={this.handleTaskSubmit} />
+        <TaskForm users={this.state.users} onTaskSubmit={this.handleTaskSubmit} />
       </div>
     );
   }
