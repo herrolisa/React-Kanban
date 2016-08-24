@@ -3,6 +3,15 @@
 
 @import 'https://fonts.googleapis.com/css?family=Alegreya+Sans:400,400i,700,700i|Baloo+Thambi';
 
+/// VARIABLES ///
+$yellow: #FFFF88;
+$light-grey: #DBDBDB;
+$grey: #BFBFBF;
+$dark-grey: #B0B0B0;
+$deep-grey: #5D5C5C;
+$white: #FFFFFF;
+$black: #000000;
+
 *{
   margin: 0;
   padding: 0;
@@ -33,22 +42,22 @@ body{
   margin: 25px auto;
   padding: 40px;
   width: 90%;
-  border: 4px #B0B0B0 solid;
-  background-color: #DBDBDB;
-  border-radius: 10px;
+  border: 4px $dark-grey solid;
+  background-color: $light-grey;
+  border-radius: 15px;
   text-align: center;
-  -webkit-box-shadow: 2px 2px 1px 0px rgba(140,140,140,1);
-  -moz-box-shadow: 2px 2px 1px 0px rgba(140,140,140,1);
-  box-shadow: 2px 2px 1px 0px rgba(140,140,140,1);
+  -webkit-box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.5);
+  -moz-box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.5);
+  box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.5);
   @media screen and (min-width: 1000px) {
     width: 80%;
   }
 }
 /////// WHITE AREA ///////
 .kanban-container{
-  border: 2px #B0B0B0 solid;
+  border: 2px $dark-grey solid;
   border-radius: 10px;
-  background-color: #FFF;
+  background-color: $white;
   padding: 10px;
 }
 
@@ -68,20 +77,19 @@ body{
   flex: 0 0 100%;
   padding: 10px;
   &:not(:first-child){
-    border-top: #000 1px solid;
+    border-top: $black 1px solid;
   }
   @media screen and (min-width: 1000px) {
   flex: 1 1 30%;
     &:not(:first-child){
       border-top: none;
-      border-left: #000 1px solid;
+      border-left: $black 1px solid;
     }
   }
 }
 
 // TASK-CARD CONTAINER //
 .task-list {
-  // border: red 2px dashed;
   display:flex;
   flex-flow: row wrap;
   justify-content: space-between;
@@ -90,33 +98,77 @@ body{
 //////////////////////////
 /////// TASK CARD ////////
 //////////////////////////
-
 .task-card {
   flex: 0 0 200px;
   height: 200px;
   margin: 20px auto;
-  padding: 15px;
-  background-color: #ffff88;
+  padding: 10px 10px 15px;
+  background-color: $yellow;
   -webkit-box-shadow: 0px 8px 25px -5px rgba(0,0,0,0.5);
   -moz-box-shadow: 0px 8px 25px -5px rgba(0,0,0,0.5);
   box-shadow: 0px 8px 25px -5px rgba(0,0,0,0.5);
   p {
     padding-top: 5px;
   }
-  span {
-    font-size: 0.75em;
-    font-weight: 700;
+  .delete-task input{
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    background: none;
+    border: none;
+    font-family: 'Baloo Thambi', cursive;
+    float: right;
+    color: $deep-grey;
+    &:hover {
+      border-radius: 50%;
+      color: $white;
+      background-color: $deep-grey;
+      cursor:pointer;
+    }
   }
 }
 
-.task-title{
-  font-size: 1.25em;
-  font-weight: 700;
+.task-info{
+  clear:both;
+  .task-header{
+    .task-title{
+      font-size: 1.25em;
+      font-weight: 700;
+    }
+  }
+  .task-body{
+    margin-bottom: 5px;
+    .task-priority {
+      text-transform: uppercase;
+      font-size: 0.75em;
+      font-weight: 700;
+    }
+    span {
+      font-size: 0.75em;
+      font-weight: 700;
+    }
+  }
 }
-.task-priority {
-  text-transform: uppercase;
-    font-size: 0.75em;
-    font-weight: 700;
+
+.update-status{
+  input[type=submit]{
+    width: 25px;
+    height: 25px;
+    margin: 0 5px;
+    padding:0;
+    background: none;
+    border: none;
+    font-family: 'Baloo Thambi', cursive;
+    color: $deep-grey;
+    &:hover {
+      color: white;
+      background-color: $deep-grey;
+      cursor:pointer;
+      -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+      -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+      box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+    }
+  }
 }
 
 //////////////////////////
@@ -138,12 +190,29 @@ body{
 input {
   width: 80%;
   padding: 5px;
-  border: solid 1px gray;
+  border: solid 1px $dark-grey;
   outline: 0;
   background: white;
+}
+
+select{
+  width: 80%;
+  padding: 5px;
+  border: solid 1px $dark-grey;
+  background: white;
+  line-height: 1;
+  outline: 0;
+  border-radius: 0;
+  height: 25px;
 }
 
 input[type=submit]{
   text-transform: uppercase;
   width: 50%;
+  &:hover {
+    cursor: pointer;
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+  }
 }

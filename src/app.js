@@ -81,13 +81,27 @@ const TaskCard = React.createClass({
     let statusButtons = null;
     switch (this.props.status){
       case 1:
-        statusButtons = <div className="update-status"><input type="hidden" name="_method" value="PUT" /><input type="submit" value=">>" /></div>;
+        statusButtons =
+          <div className="update-status">
+            <input type="hidden" name="_method" value="PUT" />
+            <input type="submit" value=">>" />
+          </div>;
         break;
       case 2:
-        statusButtons = <div className="update-status"><input type="hidden" name="_method" value="PUT" /><input type="submit" value="<<" /><input type="hidden" name="_method" value="PUT" /><input type="submit" value=">>" /></div>
+        statusButtons =
+          <div className="update-status">
+            <input type="hidden" name="_method" value="PUT" />
+            <input type="submit" value="<<" />
+            <input type="hidden" name="_method" value="PUT" />
+            <input type="submit" value=">>" />
+          </div>
         break;
       case 3:
-        statusButtons = <div className="update-status"><input type="hidden" name="_method" value="PUT" /><input type="submit" value="<<" /></div>;
+        statusButtons =
+          <div className="update-status">
+            <input type="hidden" name="_method" value="PUT" />
+            <input type="submit" value="<<" />
+          </div>;
         break;
     }
     return (
@@ -96,12 +110,15 @@ const TaskCard = React.createClass({
           <input type="hidden" name="_method" value="DELETE" />
           <input type="submit" value="X" onClick={ (e) => this.props.delete(this.props.id) } />
         </div>
-        <div className ="task-data">
-          <p className="task-id">Task ID #{this.props.id}</p>
-          <p className="task-title">{this.props.title}</p>
-          <p className="task-priority">Priority: {this.props.priority}</p>
-          <p className="task-creator"><span>Created By:</span><br/>{this.props.created_by}</p>
-          <p className="task-assigner"><span>Assigned To:</span><br/>{this.props.assigned_to}</p>
+        <div className ="task-info">
+          <div className="task-header">
+            <p className="task-title">{this.props.title}</p>
+          </div>
+          <div className="task-body">
+            <p className="task-priority">Priority: {this.props.priority}</p>
+            <p className="task-creator"><span>Created By:</span><br/>{this.props.created_by}</p>
+            <p className="task-assigner"><span>Assigned To:</span><br/>{this.props.assigned_to}</p>
+          </div>
         </div>
         {statusButtons}
       </div>
