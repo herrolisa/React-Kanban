@@ -21,10 +21,10 @@ const TaskForm = React.createClass({
   },
   handleSubmit: function(e) {
     e.preventDefault();
-    var title = this.state.title.trim();
-    var priority = this.state.priority.trim();
-    var created_by = this.state.created_by.trim();
-    var assigned_to = this.state.assigned_to.trim();
+    let title = this.state.title.trim();
+    let priority = this.state.priority.trim();
+    let created_by = this.state.created_by.trim();
+    let assigned_to = this.state.assigned_to.trim();
     if (!title || !priority || !created_by || !assigned_to) {
       return;
     }
@@ -78,6 +78,14 @@ const TaskForm = React.createClass({
 
 const TaskCard = React.createClass({
   render: function() {
+    let statusButtons = "Hello";
+    if (this.props.status === 1){
+      statusButtons = <div className="update-status"><input type="hidden" name="_method" value="PUT" /><input type="submit" value=">>" /></div>;
+    }else if (this.props.status === 2){
+      statusButtons = <div className="update-status"><input type="hidden" name="_method" value="PUT" /><input type="submit" value="<<" /><input type="hidden" name="_method" value="PUT" /><input type="submit" value=">>" /></div>
+    }else if (this.props.status === 3){
+      statusButtons = <div className="update-status"><input type="hidden" name="_method" value="PUT" /><input type="submit" value="<<" /></div>;
+    }
     return (
       <div className="task-card">
         <div className="delete-task">
@@ -91,12 +99,7 @@ const TaskCard = React.createClass({
           <p className="task-creator"><span>Created By:</span><br/>{this.props.created_by}</p>
           <p className="task-assigner"><span>Assigned To:</span><br/>{this.props.assigned_to}</p>
         </div>
-        <div className="update-status">
-          <input type="hidden" name="_method" value="PUT" />
-          <input type="submit" value="<<" />
-          <input type="hidden" name="_method" value="PUT" />
-          <input type="submit" value=">>" />
-        </div>
+        {statusButtons}
       </div>
     );
   }
@@ -104,7 +107,7 @@ const TaskCard = React.createClass({
 
 const QueueList = React.createClass({
   render: function () {
-    var tasks = this.props.data.map((singleTask) => {
+    let tasks = this.props.data.map((singleTask) => {
       if (singleTask.status_id === 1){
         return (
           <TaskCard
@@ -112,6 +115,7 @@ const QueueList = React.createClass({
             priority={singleTask.priority}
             created_by={singleTask.created_by}
             assigned_to={singleTask.assigned_to}
+            status={singleTask.status_id}
             key={singleTask.id}
             id={singleTask.id}
             delete={this.props.onTaskDelete}
@@ -129,7 +133,7 @@ const QueueList = React.createClass({
 
 const ProgressList = React.createClass({
   render: function () {
-    var tasks = this.props.data.map(function(singleTask) {
+    let tasks = this.props.data.map(function(singleTask) {
       if (singleTask.status_id === 2){
         return (
           <TaskCard
@@ -137,6 +141,7 @@ const ProgressList = React.createClass({
             priority={singleTask.priority}
             created_by={singleTask.created_by}
             assigned_to={singleTask.assigned_to}
+            status={singleTask.status_id}
             key={singleTask.id}
           />
         );
@@ -152,7 +157,7 @@ const ProgressList = React.createClass({
 
 const DoneList = React.createClass({
   render: function () {
-    var tasks = this.props.data.map(function(singleTask) {
+    let tasks = this.props.data.map(function(singleTask) {
       if (singleTask.status_id === 3){
         return (
           <TaskCard
@@ -160,6 +165,7 @@ const DoneList = React.createClass({
             priority={singleTask.priority}
             created_by={singleTask.created_by}
             assigned_to={singleTask.assigned_to}
+            status={singleTask.status_id}
             key={singleTask.id}
           />
         );
@@ -207,14 +213,14 @@ const KanbanBox = React.createClass({
     });
   },
   handleTaskSubmit: function(task) {
-    var currentTasks = this.state.data;
+    let currentTasks = this.state.data;
     $.ajax({
       url: this.props.url,
       dataType: 'json',
       type: 'POST',
       data: task,
       success: function(data) {
-        var newTasks = currentTasks.concat([data]);
+        let newTasks = currentTasks.concat([data]);
         this.setState({data: newTasks});
       }.bind(this),
       error: function(xhr, status, err) {
