@@ -34,7 +34,7 @@ const TaskForm = React.createClass({
   render: function () {
     const currentUsers = this.props.users.map((eachUser) => {
       return (
-        <option value={eachUser.username}>{eachUser.username}</option>
+        <option value={eachUser.username} key={eachUser.id}>{eachUser.username}</option>
       )
     });
     return (
@@ -54,7 +54,7 @@ const TaskForm = React.createClass({
           <p>
             <label>Created By<br />
               <select type="text" placeholder="Created By" value={this.state.created_by} onChange={this.handleCreatorChange}>
-                <option selected disabled>Select User</option>
+                <option defaultValue disabled>Select User</option>
                 {currentUsers}
               </select>
             </label>
@@ -62,7 +62,7 @@ const TaskForm = React.createClass({
           <p>
             <label>Assigned To<br />
               <select type="text" placeholder="Assigned To" value={this.state.assigned_to} onChange={this.handleAssignerChange}>
-                <option selected disabled>Select User</option>
+                <option defaultValue disabled>Select User</option>
                 {currentUsers}
               </select>
             </label>
@@ -147,6 +147,7 @@ const ProgressList = React.createClass({
             assigned_to={singleTask.assigned_to}
             status={singleTask.status_id}
             key={singleTask.id}
+            id={singleTask.id}
           />
         );
       }
@@ -171,6 +172,7 @@ const DoneList = React.createClass({
             assigned_to={singleTask.assigned_to}
             status={singleTask.status_id}
             key={singleTask.id}
+            id={singleTask.id}
           />
         );
       }
@@ -258,11 +260,11 @@ const KanbanBox = React.createClass({
           </div>
           <div className="column">
             <h2>In Progress</h2>
-            <ProgressList data={this.state.data} />
+            <ProgressList data={this.state.data} onTaskDelete={this.handleDeleteTask} />
           </div>
           <div className="column">
             <h2>Done</h2>
-            <DoneList data={this.state.data} />
+            <DoneList data={this.state.data} onTaskDelete={this.handleDeleteTask} />
           </div>
         </div>
         <TaskForm users={this.state.users} onTaskSubmit={this.handleTaskSubmit} />
