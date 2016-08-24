@@ -78,13 +78,17 @@ const TaskForm = React.createClass({
 
 const TaskCard = React.createClass({
   render: function() {
-    let statusButtons = "Hello";
-    if (this.props.status === 1){
-      statusButtons = <div className="update-status"><input type="hidden" name="_method" value="PUT" /><input type="submit" value=">>" /></div>;
-    }else if (this.props.status === 2){
-      statusButtons = <div className="update-status"><input type="hidden" name="_method" value="PUT" /><input type="submit" value="<<" /><input type="hidden" name="_method" value="PUT" /><input type="submit" value=">>" /></div>
-    }else if (this.props.status === 3){
-      statusButtons = <div className="update-status"><input type="hidden" name="_method" value="PUT" /><input type="submit" value="<<" /></div>;
+    let statusButtons = null;
+    switch (this.props.status){
+      case 1:
+        statusButtons = <div className="update-status"><input type="hidden" name="_method" value="PUT" /><input type="submit" value=">>" /></div>;
+        break;
+      case 2:
+        statusButtons = <div className="update-status"><input type="hidden" name="_method" value="PUT" /><input type="submit" value="<<" /><input type="hidden" name="_method" value="PUT" /><input type="submit" value=">>" /></div>
+        break;
+      case 3:
+        statusButtons = <div className="update-status"><input type="hidden" name="_method" value="PUT" /><input type="submit" value="<<" /></div>;
+        break;
     }
     return (
       <div className="task-card">
