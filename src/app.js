@@ -154,7 +154,7 @@ const QueueList = React.createClass({
 
 const ProgressList = React.createClass({
   render: function () {
-    let tasks = this.props.data.map(function(singleTask) {
+    let tasks = this.props.data.map((singleTask) => {
       if (singleTask.status_id === 2){
         return (
           <TaskCard
@@ -165,6 +165,7 @@ const ProgressList = React.createClass({
             status={singleTask.status_id}
             key={singleTask.id}
             id={singleTask.id}
+            delete={this.props.onTaskDelete}
           />
         );
       }
@@ -179,7 +180,7 @@ const ProgressList = React.createClass({
 
 const DoneList = React.createClass({
   render: function () {
-    let tasks = this.props.data.map(function(singleTask) {
+    let tasks = this.props.data.map((singleTask) => {
       if (singleTask.status_id === 3){
         return (
           <TaskCard
@@ -190,6 +191,7 @@ const DoneList = React.createClass({
             status={singleTask.status_id}
             key={singleTask.id}
             id={singleTask.id}
+            delete={this.props.onTaskDelete}
           />
         );
       }
