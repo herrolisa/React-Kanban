@@ -98,7 +98,7 @@ app.put('/api/tasks/:id', function (req, res) {
   })
   .then(function (task) {
     return task.updateAttributes({
-      status_id: req.params.status_id
+      status_id: req.body.status_id
     })
   })
   .then(function() {
