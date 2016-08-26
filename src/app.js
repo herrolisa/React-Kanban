@@ -84,23 +84,23 @@ const TaskCard = React.createClass({
         statusButtons =
           <div className="update-status">
             <input type="hidden" name="_method" value="PUT" />
-            <input type="submit" value=">>" />
+            <input type="submit" value=">>" onClick={ (e) => this.props.update(this.props.id, this.props.status + 1) } />
           </div>;
         break;
       case 2:
         statusButtons =
           <div className="update-status">
             <input type="hidden" name="_method" value="PUT" />
-            <input type="submit" value="<<" />
+            <input type="submit" value="<<" onClick={ (e) => this.props.update(this.props.id, this.props.status - 1) } />
             <input type="hidden" name="_method" value="PUT" />
-            <input type="submit" value=">>" />
+            <input type="submit" value=">>" onClick={ (e) => this.props.update(this.props.id, this.props.status + 1) } />
           </div>
         break;
       case 3:
         statusButtons =
           <div className="update-status">
             <input type="hidden" name="_method" value="PUT" />
-            <input type="submit" value="<<" />
+            <input type="submit" value="<<" onClick={ (e) => this.props.update(this.props.id, this.props.status - 1) } />
           </div>;
         break;
     }
@@ -140,6 +140,7 @@ const QueueList = React.createClass({
             key={singleTask.id}
             id={singleTask.id}
             delete={this.props.onTaskDelete}
+            update={this.props.onStatusUpdate}
           />
         );
       }
@@ -166,6 +167,7 @@ const ProgressList = React.createClass({
             key={singleTask.id}
             id={singleTask.id}
             delete={this.props.onTaskDelete}
+            update={this.props.onStatusUpdate}
           />
         );
       }
@@ -192,6 +194,7 @@ const DoneList = React.createClass({
             key={singleTask.id}
             id={singleTask.id}
             delete={this.props.onTaskDelete}
+            update={this.props.onStatusUpdate}
           />
         );
       }
@@ -260,7 +263,18 @@ const KanbanBox = React.createClass({
       type: 'DELETE',
       success: (data) => {
         this.setState({data: data});
-      },
+      }
+    });
+  },
+  handleStatusUpdate: function (id, newStatus) {
+    $.ajax({
+      url: this.props.url + '/' + id,
+      dataType: 'json',
+      type: 'PUT',
+      data: {status_id: newStatus},
+      success: (updatedTasks) => {
+        this.setState({data: updatedTasks})
+      }
     });
   },
   componentDidMount: function() {
@@ -275,15 +289,15 @@ const KanbanBox = React.createClass({
         <div className="status-columns">
           <div className="column">
             <h2>Queue</h2>
-            <QueueList data={this.state.data} onTaskDelete={this.handleDeleteTask} />
+            <QueueList data={this.state.data} onTaskDelete={this.handleDeleteTask} onStatusUpdate={this.handleStatusUpdate} />
           </div>
           <div className="column">
             <h2>In Progress</h2>
-            <ProgressList data={this.state.data} onTaskDelete={this.handleDeleteTask} />
+            <ProgressList data={this.state.data} onTaskDelete={this.handleDeleteTask} onStatusUpdate={this.handleStatusUpdate} />
           </div>
           <div className="column">
             <h2>Done</h2>
-            <DoneList data={this.state.data} onTaskDelete={this.handleDeleteTask} />
+            <DoneList data={this.state.data} onTaskDelete={this.handleDeleteTask} onStatusUpdate={this.handleStatusUpdate} />
           </div>
         </div>
         <TaskForm users={this.state.users} onTaskSubmit={this.handleTaskSubmit} />
