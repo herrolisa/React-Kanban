@@ -45,13 +45,15 @@ app.get('/', function (req, res) {
 });
 
 app.get('/api/tasks', function (req, res) {
-  db.Task.findAll().then(function(tasksArray) {
+  db.Task.findAll()
+  .then(function(tasksArray) {
     res.json(tasksArray);
   });
 });
 
 app.get('/api/users', function (req, res) {
-  db.User.findAll().then(function(usersArray) {
+  db.User.findAll()
+  .then(function(usersArray) {
     res.json(usersArray);
   });
 });
@@ -68,7 +70,8 @@ app.post('/api/tasks', function (req, res) {
     priority: req.body.priority,
     created_by: req.body.created_by,
     assigned_to: req.body.assigned_to,
-  }).then(function(object) {
+  })
+  .then(function(object) {
     res.json(object);
   });
 });
@@ -78,9 +81,30 @@ app.delete('/api/tasks/:id', function (req, res) {
     where: {
       id: req.params.id
     }
-  }).then(function() {
+  })
+  .then(function() {
     return db.Task.findAll();
-  }).then(function (tasksArray) {
+  })
+  .then(function (tasksArray) {
+    res.json(tasksArray);
+  });
+});
+
+app.put('/api/tasks/:id', function (req, res) {
+  db.Task.find({
+    where: {
+      id: req.params.id
+    }
+  })
+  .then(function (task) {
+    return task.updateAttributes({
+      status_id: req.params.status_id
+    })
+  })
+  .then(function() {
+    return db.Task.findAll();
+  })
+  .then(function (tasksArray) {
     res.json(tasksArray);
   });
 });
