@@ -1,8 +1,3 @@
-// -KanbanBox
-//   -QueueList
-//     -TaskCard
-//   -TaskForm
-
 const TaskForm = React.createClass({
   getInitialState: function() {
     return {title: '', priority: '', created_by: '', assigned_to: ''};
@@ -126,64 +121,10 @@ const TaskCard = React.createClass({
   }
 });
 
-const QueueList = React.createClass({
+const TaskList = React.createClass({
   render: function () {
     let tasks = this.props.data.map((singleTask) => {
-      if (singleTask.status_id === 1){
-        return (
-          <TaskCard
-            title={singleTask.title}
-            priority={singleTask.priority}
-            created_by={singleTask.created_by}
-            assigned_to={singleTask.assigned_to}
-            status={singleTask.status_id}
-            key={singleTask.id}
-            id={singleTask.id}
-            delete={this.props.onTaskDelete}
-            update={this.props.onStatusUpdate}
-          />
-        );
-      }
-    });
-    return (
-      <div className="task-list">
-        { tasks }
-      </div>
-    );
-  }
-});
-
-const ProgressList = React.createClass({
-  render: function () {
-    let tasks = this.props.data.map((singleTask) => {
-      if (singleTask.status_id === 2){
-        return (
-          <TaskCard
-            title={singleTask.title}
-            priority={singleTask.priority}
-            created_by={singleTask.created_by}
-            assigned_to={singleTask.assigned_to}
-            status={singleTask.status_id}
-            key={singleTask.id}
-            id={singleTask.id}
-            delete={this.props.onTaskDelete}
-            update={this.props.onStatusUpdate}
-          />
-        );
-      }
-    });
-    return (
-      <div className="task-list">
-        { tasks }
-      </div>
-    );
-  }
-});
-
-const DoneList = React.createClass({
-  render: function () {
-    let tasks = this.props.data.map((singleTask) => {
-      if (singleTask.status_id === 3){
+      if (singleTask.status_id === this.props.status){
         return (
           <TaskCard
             title={singleTask.title}
@@ -289,15 +230,15 @@ const KanbanBox = React.createClass({
         <div className="status-columns">
           <div className="column">
             <h2>Queue</h2>
-            <QueueList data={this.state.data} onTaskDelete={this.handleDeleteTask} onStatusUpdate={this.handleStatusUpdate} />
+            <TaskList status={1} data={this.state.data} onTaskDelete={this.handleDeleteTask} onStatusUpdate={this.handleStatusUpdate} />
           </div>
           <div className="column">
             <h2>In Progress</h2>
-            <ProgressList data={this.state.data} onTaskDelete={this.handleDeleteTask} onStatusUpdate={this.handleStatusUpdate} />
+            <TaskList status={2} data={this.state.data} onTaskDelete={this.handleDeleteTask} onStatusUpdate={this.handleStatusUpdate} />
           </div>
           <div className="column">
             <h2>Done</h2>
-            <DoneList data={this.state.data} onTaskDelete={this.handleDeleteTask} onStatusUpdate={this.handleStatusUpdate} />
+            <TaskList status={3} data={this.state.data} onTaskDelete={this.handleDeleteTask} onStatusUpdate={this.handleStatusUpdate} />
           </div>
         </div>
         <TaskForm users={this.state.users} onTaskSubmit={this.handleTaskSubmit} />
