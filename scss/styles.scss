@@ -180,10 +180,13 @@ body{
 ////////// FORM //////////
 //////////////////////////
 .form-container {
-  border: blue 2px dashed;
+  background-color: $yellow;
   margin: 15px auto 0;
   padding: 15px;
   width: 250px;
+  -webkit-box-shadow: 0px 8px 25px -5px rgba(0,0,0,0.5);
+  -moz-box-shadow: 0px 8px 25px -5px rgba(0,0,0,0.5);
+  box-shadow: 0px 8px 25px -5px rgba(0,0,0,0.5);
   p {
     padding-top: 15px;
   }
