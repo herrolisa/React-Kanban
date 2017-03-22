@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/herrolisa/React-Kanban.git"
+    "url": "git+https://github.com/lisazhou/React-Kanban.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/herrolisa/React-Kanban/issues"
+    "url": "https://github.com/lisazhou/React-Kanban/issues"
   },
-  "homepage": "https://github.com/herrolisa/React-Kanban#readme",
+  "homepage": "https://github.com/lisazhou/React-Kanban#readme",
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
